@@ -1,0 +1,26 @@
+.ticket-list-container {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-family: 'Georgia', serif;
+  }
+  
+  .tickets-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .ticket-list-container {
+      padding: 15px;
+    }
+  }
+  

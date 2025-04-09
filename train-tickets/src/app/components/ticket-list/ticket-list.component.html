@@ -1,0 +1,11 @@
+<div class="ticket-list-container">
+    <h1>Available Train Tickets</h1>
+    
+    <div class="tickets-grid">
+      <app-train-ticket 
+        *ngFor="let ticket of tickets" 
+        [ticket]="ticket">
+      </app-train-ticket>
+    </div>
+  </div>
+  

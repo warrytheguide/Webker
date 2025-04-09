@@ -1,0 +1,37 @@
+<div class="ticket" [class.luxury]="ticket.luxury">
+  <div class="ticket-header">
+    <div class="ticket-type">
+      <ng-container *ngIf="ticket.luxury; else standardTicket">
+        LUXURY
+      </ng-container>
+      <ng-template #standardTicket>
+        STANDARD
+      </ng-template>
+    </div>
+    <div class="ticket-price">€{{ ticket.price }}</div>
+  </div>
+  
+  <div class="ticket-body">
+    <div class="route">
+      <div class="station from">From: {{ ticket.from }}</div>
+      <div class="journey-line">
+        <div class="train-icon">
+          <ng-container *ngIf="ticket.luxury; else standardTrain">🚆</ng-container>
+          <ng-template #standardTrain>🚂</ng-template>
+        </div>
+      </div>
+      <div class="station to">To: {{ ticket.to }}</div>
+    </div>
+
+
+  
+    <div class="ticket-footer">
+      <button mat-raised-button color="primary" class="buy-button" (click)="openConfirmDialog()">Buy Ticket</button>
+    </div>
+
+  <div *ngIf="ticket.lastTicket" class="last-ticket-container">
+    <mat-icon color="warn">warning</mat-icon>
+    <span class="last-ticket-text">Last Ticket</span>
+  </div>
+</div>
+</div>

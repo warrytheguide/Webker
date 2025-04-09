@@ -1,0 +1,43 @@
+[
+    {
+      "id": 1,
+      "from": "London",
+      "to": "Paris",
+      "price": 120,
+      "luxury": true,
+      "lastTicket": false
+    },
+    {
+      "id": 2,
+      "from": "Berlin",
+      "to": "Vienna",
+      "price": 85,
+      "luxury": false,
+      "lastTicket": false
+    },
+    {
+      "id": 3,
+      "from": "Madrid",
+      "to": "Barcelona",
+      "price": 60,
+      "luxury": false,
+      "lastTicket": false
+    },
+    {
+      "id": 4,
+      "from": "Rome",
+      "to": "Milan",
+      "price": 75,
+      "luxury": true,
+      "lastTicket": false
+    },
+    {
+      "id": 5,
+      "from": "Amsterdam",
+      "to": "Brussels",
+      "price": 45,
+      "luxury": false,
+      "lastTicket": true
+    }
+  ]
+  
