@@ -5,7 +5,7 @@
       "to": "Paris",
       "price": 120,
       "luxury": true,
-      "lastTicket": false
+      "lastTicket": true
     },
     {
       "id": 2,

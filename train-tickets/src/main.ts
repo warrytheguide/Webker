@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'tickets', component: TicketListComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'my-tickets', component: MyTicketsComponent }
 ];
 
