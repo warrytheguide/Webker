@@ -2,9 +2,10 @@
 
 ## Használati instrukciók:
 
- 1. Kiadod az `npm install` parancsot
- 2. Kiadod az `ng serve --open` parancsot
- 3. Enjoy :)
+ 1. Megnyitod a "train-tickets" mappát
+ 2. Kiadod az `npm install` parancsot
+ 3. Kiadod az `ng serve --open` parancsot
+ 4. Enjoy :)
 
 ## Megjegyzések:
 A login (kinda) működik, be tudsz lépni a 2 létező profillal:
