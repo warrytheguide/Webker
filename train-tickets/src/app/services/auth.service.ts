@@ -1,4 +1,3 @@
-// Modify auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
@@ -14,15 +13,12 @@ export class AuthService {
   private USERS_KEY = 'users_data';
 
   constructor(private http: HttpClient) {
-    // Initialize users if not exists
     if (!localStorage.getItem(this.USERS_KEY)) {
-      // Load initial users from JSON file
       this.http.get<User[]>('assets/data/users.json').subscribe(users => {
         localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
       });
     }
     
-    // Set up current user
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<User | null>(
       storedUser ? JSON.parse(storedUser) : null
@@ -44,10 +40,8 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<User> {
-    // Get users from localStorage
     const users = this.getUsers();
     
-    // Find matching user
     const user = users.find(u => 
       u.username === username && u.password === password
     );
@@ -56,23 +50,19 @@ export class AuthService {
       return throwError(() => new Error('Username or password is incorrect'));
     }
     
-    // Store user in localStorage
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
     return of(user);
   }
 
   register(newUser: Partial<User>): Observable<User> {
-    // Get existing users
     const users = this.getUsers();
     
-    // Check if username already exists
     const existingUser = users.find(u => u.username === newUser.username);
     if (existingUser) {
       return throwError(() => new Error('Username already exists'));
     }
     
-    // Create new user with next available ID
     const maxId = users.length > 0 
       ? Math.max(...users.map(user => user.id)) 
       : 0;
@@ -81,10 +71,9 @@ export class AuthService {
       id: maxId + 1,
       username: newUser.username!,
       password: newUser.password!,
-      admin: false // New users are not admins by default
+      admin: false
     };
     
-    // Add to users array and save
     users.push(user);
     this.saveUsers(users);
     
