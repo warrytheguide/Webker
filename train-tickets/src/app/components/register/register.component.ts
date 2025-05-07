@@ -10,7 +10,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { UserService } from '../../services/user.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
     MatIconModule,
     MatSnackBarModule,
     MatDividerModule,
-    MatSpinner
+    MatProgressSpinnerModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -40,10 +41,11 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private userService: UserService
   ) {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
@@ -59,18 +61,20 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
-      const { username, password } = this.registerForm.value;
+      const { email, password } = this.registerForm.value;
       
-      this.authService.register({ username, password }).subscribe({
-        next: (user) => {
+      this.authService.register(email, password).subscribe({
+        next: (credential) => {
+          // Registration successful
           this.isLoading = false;
-          this.snackBar.open('Registration successful! Please log in.', 'Close', {
-            duration: 5000,
+          this.snackBar.open('Registration successful!', 'Close', {
+            duration: 3000,
             panelClass: 'success-snackbar'
           });
-          this.router.navigate(['/login']);
+          this.router.navigate(['/tickets']);
         },
         error: (error) => {
+          // Registration failed
           this.isLoading = false;
           this.snackBar.open('Registration failed: ' + error.message, 'Close', {
             duration: 5000,
@@ -79,10 +83,11 @@ export class RegisterComponent {
         }
       });
     } else {
+      // Form validation failed
       this.registerForm.markAllAsTouched();
     }
   }
-
+  
   navigateToLogin() {
     this.router.navigate(['/login']);
   }

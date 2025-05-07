@@ -1,9 +1,10 @@
 <nav>
-    <ul>
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-      <li><a routerLink="/tickets" routerLinkActive="active">Tickets</a></li>
-      <li><a routerLink="/my-tickets" routerLinkActive="active">My Tickets</a></li>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-    </ul>
-  </nav>
-  
+  <ul>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+    <li><a routerLink="/tickets" routerLinkActive="active">Tickets</a></li>
+    <li *ngIf="isLoggedIn"><a routerLink="/my-tickets" routerLinkActive="active">My Tickets</a></li>
+    <li *ngIf="!isLoggedIn"><a routerLink="/login" routerLinkActive="active">Login</a></li>
+    <li *ngIf="!isLoggedIn"><a routerLink="/register" routerLinkActive="active">Register</a></li>
+    <li *ngIf="isLoggedIn"><a (click)="logout()" style="cursor: pointer;">Logout</a></li>
+  </ul>
+</nav>

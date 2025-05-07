@@ -10,8 +10,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
-import { MatSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +27,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
     MatSnackBarModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatSpinner
+    MatProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -43,8 +43,9 @@ export class LoginComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
+    // Change form field from username to email for Firebase Authentication
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [false]
     });
@@ -53,10 +54,10 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      const { username, password } = this.loginForm.value;
+      const { email, password } = this.loginForm.value;
       
-      this.authService.login(username, password).subscribe({
-        next: (user) => {
+      this.authService.login(email, password).subscribe({
+        next: () => {
           this.isLoading = false;
           this.snackBar.open('Login successful!', 'Close', {
             duration: 3000,
@@ -80,5 +81,4 @@ export class LoginComponent {
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
-  
 }
