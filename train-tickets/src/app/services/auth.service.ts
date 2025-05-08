@@ -7,13 +7,14 @@ import {
   user,
   User
 } from '@angular/fire/auth';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   user$: Observable<User | null>;
+  
   constructor(private auth: Auth) {
     this.user$ = user(this.auth);
   }
@@ -28,5 +29,14 @@ export class AuthService {
 
   logout(): Observable<void> {
     return from(signOut(this.auth));
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.user$.pipe(
+      map(user => {
+        if (!user) return false;
+        return user.email === 'admin@admin.com';
+      })
+    );
   }
 }

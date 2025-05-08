@@ -43,7 +43,6 @@ export class LoginComponent {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    // Change form field from username to email for Firebase Authentication
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -63,7 +62,9 @@ export class LoginComponent {
             duration: 3000,
             panelClass: 'success-snackbar'
           });
-          this.router.navigate(['/']);
+          
+          
+          window.location.href = '/tickets';
         },
         error: (error) => {
           this.isLoading = false;

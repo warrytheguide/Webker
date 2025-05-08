@@ -8,7 +8,7 @@ export const nonAuthGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   return authService.user$.pipe(
-    take(1), // Take only the first emission and complete
+    take(1),
     map((user) => {
       if (!user) {
         return true;

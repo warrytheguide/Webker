@@ -24,3 +24,21 @@
     }
   }
   
+  // src/app/components/ticket-list/ticket-list.component.scss
+.ticket-list-container {
+  padding: 20px;
+}
+
+
+.ticket-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.admin-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}

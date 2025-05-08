@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-register',
@@ -42,7 +43,8 @@ export class RegisterComponent {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private userService: UserService
+    private userService: UserService,
+    private firestore: Firestore
   ) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -65,16 +67,25 @@ export class RegisterComponent {
       
       this.authService.register(email, password).subscribe({
         next: (credential) => {
-          // Registration successful
+          const isAdmin = email === 'admin@admin.com';
+          const user = credential.user;
+          
+          const userRef = doc(this.firestore, 'users', user.uid);
+          setDoc(userRef, {
+            uid: user.uid,
+            email: user.email,
+            admin: isAdmin,
+            createdAt: new Date()
+          }).catch(err => console.error('Error saving user data:', err));
+          
           this.isLoading = false;
-          this.snackBar.open('Registration successful!', 'Close', {
+          this.snackBar.open(isAdmin ? 'Admin account created!' : 'Registration successful!', 'Close', {
             duration: 3000,
             panelClass: 'success-snackbar'
           });
           this.router.navigate(['/tickets']);
         },
         error: (error) => {
-          // Registration failed
           this.isLoading = false;
           this.snackBar.open('Registration failed: ' + error.message, 'Close', {
             duration: 5000,
@@ -83,7 +94,6 @@ export class RegisterComponent {
         }
       });
     } else {
-      // Form validation failed
       this.registerForm.markAllAsTouched();
     }
   }

@@ -8,7 +8,6 @@ import { User } from 'firebase/auth';
 export class UserService {
   constructor(private firestore: Firestore) {}
 
-  // Save user data to Firestore
   async saveUserData(user: User, additionalData?: any) {
     const userRef = doc(this.firestore, 'users', user.uid);
     const userData = {
@@ -20,7 +19,6 @@ export class UserService {
     return setDoc(userRef, userData);
   }
 
-  // Get user data from Firestore
   async getUserData(uid: string) {
     const userRef = doc(this.firestore, 'users', uid);
     const docSnap = await getDoc(userRef);

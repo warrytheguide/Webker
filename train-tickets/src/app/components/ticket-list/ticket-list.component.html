@@ -1,11 +1,17 @@
 <div class="ticket-list-container">
-    <h1>Available Train Tickets</h1>
-    
-    <div class="tickets-grid">
-      <app-train-ticket 
-        *ngFor="let ticket of tickets" 
-        [ticket]="ticket">
-      </app-train-ticket>
-    </div>
+  <h1>Available Train Tickets</h1>
+  
+  <div *ngIf="isAdmin" class="admin-controls">
+    <button mat-raised-button color="primary" (click)="addNewTicket()">
+      <mat-icon>add</mat-icon> Add New Ticket
+    </button>
   </div>
   
+  <div class="ticket-list">
+    <app-train-ticket 
+      *ngFor="let ticket of tickets" 
+      [ticket]="ticket"
+      (ticketUpdated)="loadTickets()"
+    ></app-train-ticket>
+  </div>
+</div>
