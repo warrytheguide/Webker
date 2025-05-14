@@ -76,7 +76,7 @@ export class RegisterComponent {
             email: user.email,
             admin: isAdmin,
             createdAt: new Date(),
-            purchasedTickets: [] // Initialize empty purchased tickets array
+            purchasedTickets: []
           }).catch(err => console.error('Error saving user data:', err));
           
           this.isLoading = false;
@@ -89,7 +89,6 @@ export class RegisterComponent {
         error: (error) => {
           this.isLoading = false;
           
-          // Provide user-friendly error messages
           let errorMessage = 'An error occurred during registration. Please try again.';
           
           if (error.code) {
@@ -124,7 +123,6 @@ export class RegisterComponent {
         }
       });
     } else {
-      // Form validation errors
       if (this.registerForm.hasError('passwordMismatch')) {
         this.snackBar.open('Passwords do not match', 'Close', {
           duration: 3000,

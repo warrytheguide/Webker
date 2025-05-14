@@ -68,7 +68,6 @@ export class LoginComponent {
         error: (error) => {
           this.isLoading = false;
           
-          // Provide user-friendly error messages
           let errorMessage = 'An error occurred during login. Please try again.';
           
           if (error.code) {
