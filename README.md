@@ -1,8 +1,9 @@
+# Online vonatjegy foglaló oldal
 
-# Hosting link:
+### Hosting link:
 
-### https://traintickets-b98d6.web.app/
+## https://traintickets-b98d6.web.app/
 
-## Adminnal lehet CRUD műveleteket végezni:
+### Adminnal lehet CRUD műveleteket végezni:
  - email: admin@admin.com 
  - password: 123123
