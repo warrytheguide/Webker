@@ -63,12 +63,43 @@ export class LoginComponent {
             panelClass: 'success-snackbar'
           });
           
-          
           window.location.href = '/tickets';
         },
         error: (error) => {
           this.isLoading = false;
-          this.snackBar.open('Login failed: ' + error.message, 'Close', {
+          
+          // Provide user-friendly error messages
+          let errorMessage = 'An error occurred during login. Please try again.';
+          
+          if (error.code) {
+            switch (error.code) {
+              case 'auth/invalid-email':
+                errorMessage = 'Invalid email format.';
+                break;
+              case 'auth/user-disabled':
+                errorMessage = 'This account has been disabled.';
+                break;
+              case 'auth/user-not-found':
+                errorMessage = 'No account found with this email.';
+                break;
+              case 'auth/wrong-password':
+                errorMessage = 'Incorrect password.';
+                break;
+              case 'auth/invalid-credential':
+                errorMessage = 'Invalid email or password.';
+                break;
+              case 'auth/too-many-requests':
+                errorMessage = 'Too many failed login attempts. Please try again later.';
+                break;
+              case 'auth/network-request-failed':
+                errorMessage = 'Network error. Please check your internet connection.';
+                break;
+              default:
+                errorMessage = `Login failed: ${error.message}`;
+            }
+          }
+          
+          this.snackBar.open(errorMessage, 'Close', {
             duration: 5000,
             panelClass: 'error-snackbar'
           });

@@ -1,38 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+interface DialogData {
+  title: string;
+  message: string;
+  confirmText: string;
+  cancelText: string;
+}
 
 @Component({
-  selector: 'app-confirmation-dialog',
+  selector: 'app-confirm-dialog',
   standalone: true,
-  imports: [
-    MatDialogModule,
-    MatButtonModule
-  ],
+  imports: [CommonModule, MatButtonModule, MatDialogModule],
   template: `
-    <h1 mat-dialog-title>Confirm Purchase</h1>
-<div mat-dialog-content>
-  <p>Are you sure you want to buy this ticket?</p>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button color="warn" (click)="onNoClick()">No</button>
-  <button mat-raised-button color="primary" (click)="onYesClick()">Yes</button>
-</div>
-
+    <h2 mat-dialog-title>{{ data.title }}</h2>
+    <div mat-dialog-content>
+      <p>{{ data.message }}</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onCancel()">{{ data.cancelText }}</button>
+      <button mat-raised-button color="primary" (click)="onConfirm()">{{ data.confirmText }}</button>
+    </div>
   `,
-  styles: [
-    'h1 { font-size: 1.5rem; }',
-    'p { margin: 0; }'
-  ]
+  styles: []
 })
-export class ConfirmationDialogComponent {
-  constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {}
+export class ConfirmDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
 
-  onNoClick(): void {
-    this.dialogRef.close(false);
+  onConfirm(): void {
+    this.dialogRef.close(true);
   }
 
-  onYesClick(): void {
-    this.dialogRef.close(true);
+  onCancel(): void {
+    this.dialogRef.close(false);
   }
 }

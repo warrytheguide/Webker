@@ -75,7 +75,8 @@ export class RegisterComponent {
             uid: user.uid,
             email: user.email,
             admin: isAdmin,
-            createdAt: new Date()
+            createdAt: new Date(),
+            purchasedTickets: [] // Initialize empty purchased tickets array
           }).catch(err => console.error('Error saving user data:', err));
           
           this.isLoading = false;
@@ -87,13 +88,49 @@ export class RegisterComponent {
         },
         error: (error) => {
           this.isLoading = false;
-          this.snackBar.open('Registration failed: ' + error.message, 'Close', {
+          
+          // Provide user-friendly error messages
+          let errorMessage = 'An error occurred during registration. Please try again.';
+          
+          if (error.code) {
+            switch (error.code) {
+              case 'auth/email-already-in-use':
+                errorMessage = 'This email is already registered. Please use a different email or try logging in.';
+                break;
+              case 'auth/invalid-email':
+                errorMessage = 'Please enter a valid email address.';
+                break;
+              case 'auth/operation-not-allowed':
+                errorMessage = 'Email/password registration is not enabled. Please contact support.';
+                break;
+              case 'auth/weak-password':
+                errorMessage = 'Your password is too weak. Please choose a stronger password.';
+                break;
+              case 'auth/network-request-failed':
+                errorMessage = 'Network error. Please check your internet connection and try again.';
+                break;
+              case 'auth/too-many-requests':
+                errorMessage = 'Too many requests. Please try again later.';
+                break;
+              default:
+                errorMessage = `Registration failed: ${error.message}`;
+            }
+          }
+          
+          this.snackBar.open(errorMessage, 'Close', {
             duration: 5000,
             panelClass: 'error-snackbar'
           });
         }
       });
     } else {
+      // Form validation errors
+      if (this.registerForm.hasError('passwordMismatch')) {
+        this.snackBar.open('Passwords do not match', 'Close', {
+          duration: 3000,
+          panelClass: 'error-snackbar'
+        });
+      }
       this.registerForm.markAllAsTouched();
     }
   }

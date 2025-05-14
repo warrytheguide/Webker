@@ -24,8 +24,10 @@
     </div>
 
     <div class="ticket-footer">
-      <button *ngIf="!isAdmin" mat-raised-button color="primary" class="buy-button">Buy Ticket</button>
+      <!-- Only show Buy button for non-admin users -->
+      <button *ngIf="!isAdmin" mat-raised-button color="primary" class="buy-button" (click)="buyTicket()">Buy Ticket</button>
       
+      <!-- Admin controls -->
       <div *ngIf="isAdmin" class="admin-controls">
         <button mat-icon-button color="primary" (click)="editTicket()">
           <mat-icon>edit</mat-icon>
